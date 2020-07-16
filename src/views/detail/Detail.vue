@@ -222,9 +222,11 @@
         product.price = this.goods.realPrice
         product.iid = this.iid
 
-        // 将商品添加到购物车里  vuex
+        // 将商品添加到购物车里  vuex 用new Promise来知道做了什么操作 可以用map映射
         // this.$store.commit('addCart',product)
-        this.$store.dispatch('addCart',product)
+        this.$store.dispatch('addCart',product).then(res => {
+          console.log(res);
+        })
       }
     }
   }
