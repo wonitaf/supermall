@@ -18,9 +18,12 @@
       <!--推荐信息 此处体现封装的妙处，参数问题注意下-->
       <goods-list :goods="recommends" ref="recommend"></goods-list>
     </scroll>
+    <!--回顶图标-->
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
     <!--底部栏-->
     <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
+    <!--弹窗的普通封装-->
+<!--    <toast :show="show" :message="message"></toast>-->
   </div>
 </template>
 
@@ -35,6 +38,8 @@
   import DetailBottomBar from './childComps/DetailBottomBar'
 
   import Scroll from 'components/common/scroll/Scroll'
+  // import Toast from 'components/common//toast/Toast'
+
   import GoodsList from 'components/content/goods/GoodsList'
 
   import {getDetail, getRecommend, Goods, Shop, GoodsParam} from 'network/detail'
@@ -57,7 +62,9 @@
         // itemImgListener: null //一个函数混入解决
         themeTopYs:[],  //存储每个主题的offsetTop
         getThemeTopY: null, // 一个函数
-        currentIndex:0
+        currentIndex:0,
+        // show:false,
+        // message:'欢迎加入'
       }
     },
     mixins:[itemImgListenerMixin,backTopMixin],
@@ -71,7 +78,8 @@
       DetailParamInfo,
       DetailCommentInfo,
       GoodsList,
-      DetailBottomBar
+      DetailBottomBar,
+     // Toast
     },
     created() {
       // 获取动态路由参数  如果有keep-alive的话，此钩子函数不执行意味着iid的值不变
@@ -225,7 +233,19 @@
         // 将商品添加到购物车里  vuex 用new Promise来知道做了什么操作 可以用map映射
         // this.$store.commit('addCart',product)
         this.$store.dispatch('addCart',product).then(res => {
+          // 普通封装
+          // this.show = true
+          // this.message = res
+          //
+          // setTimeout(() => {
+          //   this.show = false
+          //   this.message = ''
+          // },1500)
           console.log(res);
+
+          // 插件封装
+          this.$toast.show(res)
+
         })
       }
     }

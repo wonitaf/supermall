@@ -9,7 +9,7 @@
       合计：{{totalPrice}}
     </div>
 
-    <div class="calculate">
+    <div class="calculate" @click="calculate">
       去计算({{checkLength}})
     </div>
   </div>
@@ -47,6 +47,11 @@
           this.$store.state.cartList.forEach(item => item.checked = false)
         }else {
           this.$store.state.cartList.forEach(item => item.checked = true)
+        }
+      },
+      calculate() {
+        if(this.$store.state.cartList.length === 0) {
+          this.$toast.show('请选择购买的商品')
         }
       }
     }
